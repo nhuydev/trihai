@@ -6,7 +6,10 @@ import {
   Dropdown,
   Grid,
   Image,
+  Loading,
+  Modal,
   Pagination,
+  Progress,
   Text,
   useModal,
 } from "@nextui-org/react";
@@ -28,7 +31,7 @@ import PageExport from "../../components/PageExport";
 import { useDropzone } from "react-dropzone";
 import readXlsxFile from "read-excel-file";
 import PageImport from "../../components/PageExport/PageImport";
-
+import domtoimage from "dom-to-image";
 const mockData = [];
 
 const toDataURL = (url: any) =>
@@ -47,12 +50,11 @@ const toDataURL = (url: any) =>
 function Import() {
   const navigate = useNavigate();
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
-
+  const [visible, setVisible] = React.useState(false);
   //   categories
 
   const [visibleModalExport, setVisibleModalExport] = React.useState(false);
   const [dataImage, setDataImage] = useState<any>([]);
-  console.log("🚀 ~ file: index.tsx ~ line 54 ~ Import ~ dataImage", dataImage);
   //   mockData.sort((a: any, b: any) => +a.price - +b.price)
   const [page, setPage] = React.useState(1);
 
@@ -62,13 +64,12 @@ function Import() {
   const refComponent = React.useRef<any>();
 
   const [elRefs, setElRefs] = React.useState([]);
-  console.log("🚀 ~ file: index.tsx ~ line 65 ~ Import ~ elRefs", elRefs);
 
   React.useEffect(() => {
     if (acceptedFiles && acceptedFiles.length > 0) {
       readXlsxFile(acceptedFiles[0]).then((rows: any) => {
         const removeDontexist = rows.filter(
-          (row: any, index: number) => row[3]
+          (row: any, index: number) => row[3] && row[2] && row[6]
         );
         removeDontexist.shift();
 
@@ -81,23 +82,34 @@ function Import() {
   }, [acceptedFiles]);
 
   const handleScreenCapture = async () => {
+    setVisibleModalExport(true);
+
+    setVisible(true);
     elRefs.forEach(async (elRef: any) => {
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 97 ~ elRefs.forEach ~ elRef",
-        elRef
-      );
-
-      await htmlToImage
-        .toPng(elRef?.current, { backgroundColor: "white", skipFonts: true })
-        .then(function (dataUrl) {
-          console.log("🚀 ~ file: index.tsx ~ line 95 ~ dataUrl", dataUrl);
-
+      await domtoimage
+        .toPng(elRef.current, {
+          bgcolor: "white",
+          quality: 0.2,
+        })
+        .then(function (dataUrl: any) {
           setCanvasData((prev: any) => [...prev, dataUrl]);
-          setVisibleModalExport(true);
         })
         .catch(function (error) {
           console.error("oops, something went wrong!", error);
         });
+      setVisible(false);
+
+      //   await htmlToImage
+      //     .toPng(elRef?.current, { backgroundColor: "white", skipFonts: true })
+      //     .then(function (dataUrl) {
+      //       console.log("🚀 ~ file: index.tsx ~ line 95 ~ dataUrl", dataUrl);
+
+      //       setCanvasData((prev: any) => [...prev, dataUrl]);
+      //       setVisibleModalExport(true);
+      //     })
+      //     .catch(function (error) {
+      //       console.error("oops, something went wrong!", error);
+      //     });
     });
   };
 
@@ -114,10 +126,8 @@ function Import() {
   const handleChangeSort = (value: any) => {
     const sortImage =
       value === "gia"
-        ? [...dataImage].sort((a: any, b: any) => +a.price - +b.price)
-        : [...dataImage].sort((a: any, b: any) =>
-            a.title.localeCompare(b.title)
-          );
+        ? [...dataImage].sort((a: any, b: any) => +a[2] - +b[2])
+        : [...dataImage].sort((a: any, b: any) => a[1].localeCompare(b[1]));
 
     setDataImage(sortImage);
   };
@@ -176,6 +186,7 @@ function Import() {
                 >
                   <Dropdown.Item
                     key="snip"
+                    textValue="snip"
                     icon={
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -194,6 +205,7 @@ function Import() {
 
                   <Dropdown.Item
                     key="gender"
+                    textValue="gender"
                     icon={
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +220,7 @@ function Import() {
                   >
                     <div className="font-semibold">Tự động tạo ảnh</div>
                   </Dropdown.Item>
-                  <Dropdown.Item key="file" withDivider>
+                  <Dropdown.Item textValue="file" key="file" withDivider>
                     <section>
                       <div {...getRootProps({ className: "dropzone" })}>
                         <input
@@ -278,6 +290,7 @@ function Import() {
         )}
 
       <ModalExport
+        visibleLoading={visible}
         refComponent={refComponent}
         canvasData={canvasData}
         visible={visibleModalExport}
