@@ -14,6 +14,7 @@ import {
 import { exportComponentAsPNG } from "react-component-export-image";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
+import { copyImageToClipboard } from "copy-image-clipboard";
 
 const ModalExport = ({
   visible,
@@ -53,6 +54,14 @@ const ModalExport = ({
                           />
                         </PhotoView>
                       </PhotoProvider>
+                      <Button
+                        onClick={async () => {
+                          await copyImageToClipboard(view);
+                        }}
+                        auto
+                      >
+                        Coppy
+                      </Button>
                     </Card.Body>
                   </Card>
                 </Grid>

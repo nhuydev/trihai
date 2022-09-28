@@ -11,6 +11,7 @@
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.10",
     "axios": "^0.27.2",
+    "copy-image-clipboard": "^2.1.2",
     "dom-to-image": "^2.6.0",
     "html-to-image": "^1.10.8",
     "react": "^18.2.0",
@@ -20,6 +21,7 @@
     "react-photo-view": "^1.2.2",
     "react-router-dom": "^6.4.1",
     "react-screen-capture": "^1.0.1",
+    "react-toastify": "^9.0.8",
     "read-excel-file": "^5.5.0"
   },
   "devDependencies": {

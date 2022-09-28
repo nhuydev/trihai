@@ -40,20 +40,33 @@ const PageImport = ({
                     .slice(i * 18, (i + 1) * 18)
                     .map((item: any, index: any) => (
                       <Grid key={index} xs={4} md={2} xl={2}>
-                        <div className="flex flex-col">
-                          <Image
-                            height="100%"
-                            width="100%"
-                            objectFit="cover"
-                            className="shadow-lg rounded-3xl"
-                            src={item[6] || "https://via.placeholder.com/150"}
-                          />
-                          <p className="font-bold text-center pt-1">
-                            {item[1]}
-                          </p>
-                          <span className="font-semibold text-md text-center text-red-500">
-                            {currencyFormat(item[2])} đ
-                          </span>
+                        <div className="flex flex-col justify-between">
+                          <div>
+                            <Image
+                              objectFit="cover"
+                              height="100%"
+                              width="100%"
+                              className="shadow-lg rounded-3xl max-h-[180px] min-w-full"
+                              src={item[6] || "https://via.placeholder.com/150"}
+                            />
+                            <p className="font-bold text-center pt-1">
+                              {item[1]}
+                            </p>
+                          </div>
+                          <div
+                            className={`flex ${
+                              item[5] ? "justify-evenly" : "justify-center"
+                            }`}
+                          >
+                            <span className="font-semibold text-md text-red-500">
+                              {currencyFormat(item[2])} đ
+                            </span>
+                            {item[5] && (
+                              <span className="font-semibold text-md ">
+                                (1 {item[5]})
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </Grid>
                     ))}

@@ -32,6 +32,7 @@ import { useDropzone } from "react-dropzone";
 import readXlsxFile from "read-excel-file";
 import PageImport from "../../components/PageExport/PageImport";
 import domtoimage from "dom-to-image";
+import { toast } from "react-toastify";
 const mockData = [];
 
 const toDataURL = (url: any) =>
@@ -55,15 +56,19 @@ function Import() {
 
   const [visibleModalExport, setVisibleModalExport] = React.useState(false);
   const [dataImage, setDataImage] = useState<any>([]);
+  console.log("🚀 ~ file: index.tsx ~ line 59 ~ Import ~ dataImage", dataImage);
   //   mockData.sort((a: any, b: any) => +a.price - +b.price)
   const [page, setPage] = React.useState(1);
 
   const [canvasData, setCanvasData] = useState<any>([]);
   const { width } = useWindowSize();
 
+  const [selectedCate, setSelectedCate] = React.useState("");
+
   const refComponent = React.useRef<any>();
 
   const [elRefs, setElRefs] = React.useState([]);
+  const [totalImages, setTotalImages] = React.useState([]);
 
   React.useEffect(() => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -73,13 +78,29 @@ function Import() {
         );
         removeDontexist.shift();
 
-        setDataImage(removeDontexist);
+        setTotalImages(removeDontexist);
 
         // `rows` is an array of rows
         // each row being an array of cells.
       });
     }
   }, [acceptedFiles]);
+
+  React.useEffect(() => {
+    if (selectedCate) {
+      setDataImage((prev: any) =>
+        totalImages.filter((row: any) => {
+          console.log(
+            "row[4]",
+            row[4],
+            "selectedCate",
+            (selectedCate as any).replaceAll("_", " ")
+          );
+          return row[4] && row[4] == (selectedCate as any).replaceAll("_", " ");
+        })
+      );
+    }
+  }, [selectedCate]);
 
   const handleScreenCapture = async () => {
     setVisibleModalExport(true);
@@ -98,18 +119,6 @@ function Import() {
           console.error("oops, something went wrong!", error);
         });
       setVisible(false);
-
-      //   await htmlToImage
-      //     .toPng(elRef?.current, { backgroundColor: "white", skipFonts: true })
-      //     .then(function (dataUrl) {
-      //       console.log("🚀 ~ file: index.tsx ~ line 95 ~ dataUrl", dataUrl);
-
-      //       setCanvasData((prev: any) => [...prev, dataUrl]);
-      //       setVisibleModalExport(true);
-      //     })
-      //     .catch(function (error) {
-      //       console.error("oops, something went wrong!", error);
-      //     });
     });
   };
 
@@ -136,6 +145,14 @@ function Import() {
     setVisibleModalExport(false);
     setCanvasData([]);
   };
+
+  const handleChangeFilter = React.useCallback((selected: any) => {
+    console.log(
+      "🚀 ~ file: index.tsx ~ line 157 ~ handleChangeFilter ~ selected",
+      selected
+    );
+    setSelectedCate(selected[0] || selected?.anchorKey);
+  }, []);
 
   return (
     <div className="flex flex-col items-center">
@@ -175,10 +192,18 @@ function Import() {
                 <Dropdown.Menu
                   onAction={(key: any) => {
                     if (key === "file") {
-                      return navigate("/import");
+                      if (!selectedCate || selectedCate === "Chọn_danh_mục")
+                        return toast("Tải dữ liệu danh mục lên trước");
+                      // handleScreenCapture();
                     }
 
-                    handleScreenCapture();
+                    if (key === "gender") {
+                      handleScreenCapture();
+                    }
+
+                    if (key === "back") {
+                      return navigate(-1);
+                    }
                   }}
                   color="primary"
                   aria-label="Avatar Actions"
@@ -220,10 +245,28 @@ function Import() {
                   >
                     <div className="font-semibold">Tự động tạo ảnh</div>
                   </Dropdown.Item>
-                  <Dropdown.Item textValue="file" key="file" withDivider>
+                  <Dropdown.Item
+                    icon={
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        style={{ fill: "#000" }}
+                      >
+                        <path d="M20 14V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4h-7v3l-5-4 5-4v3h7zM13 4l5 5h-5V4z"></path>
+                      </svg>
+                    }
+                    textValue="file"
+                    key="file"
+                    withDivider
+                  >
                     <section>
                       <div {...getRootProps({ className: "dropzone" })}>
                         <input
+                          disabled={
+                            !selectedCate || selectedCate === "Chọn_danh_mục"
+                          }
                           {...getInputProps()}
                           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                         />
@@ -233,6 +276,24 @@ function Import() {
                       </div>
                     </section>
                   </Dropdown.Item>
+                  <Dropdown.Item
+                    icon={
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        style={{ fill: "#000" }}
+                      >
+                        <path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path>
+                      </svg>
+                    }
+                    textValue="back"
+                    key="back"
+                    withDivider
+                  >
+                    <div className="font-semibold">Trở lại</div>
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
@@ -241,7 +302,10 @@ function Import() {
         </div>
         <div className="flex justify-center">
           <Container style={{ margin: 0 }} lg>
-            <Filter handleChangeSort={handleChangeSort} />
+            <Filter
+              handleChangeFilter={handleChangeFilter}
+              handleChangeSort={handleChangeSort}
+            />
 
             <Grid.Container gap={1}>
               {dataImage &&
@@ -250,18 +314,33 @@ function Import() {
                   .slice((page - 1) * 18, page * 18)
                   .map((item: any, index: number) => (
                     <Grid key={index} xs={4} md={2} xl={2}>
-                      <div className="flex flex-col">
-                        <Image
-                          objectFit="cover"
-                          height="100%"
-                          width="100%"
-                          className="shadow-lg rounded-3xl"
-                          src={item[6] || "https://via.placeholder.com/150"}
-                        />
-                        <p className="font-bold text-center pt-1">{item[1]}</p>
-                        <span className="font-semibold text-md text-center text-red-500">
-                          {currencyFormat(item[2])} đ
-                        </span>
+                      <div className="flex flex-col justify-between">
+                        <div>
+                          <Image
+                            objectFit="cover"
+                            height="100%"
+                            width="100%"
+                            className="shadow-lg rounded-3xl max-h-[180px] min-w-full"
+                            src={item[6] || "https://via.placeholder.com/150"}
+                          />
+                          <p className="font-bold text-center pt-1">
+                            {item[1]}
+                          </p>
+                        </div>
+                        <div
+                          className={`flex ${
+                            item[5] ? "justify-evenly" : "justify-center"
+                          }`}
+                        >
+                          <span className="font-semibold text-md text-red-500">
+                            {currencyFormat(item[2])} đ
+                          </span>
+                          {item[5] && (
+                            <span className="font-semibold text-md ">
+                              (1 {item[5]})
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </Grid>
                   ))}

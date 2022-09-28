@@ -4,7 +4,13 @@ import { Dropdown, Radio } from "@nextui-org/react";
 import { useDropzone } from "react-dropzone";
 import readXlsxFile from "read-excel-file";
 
-const Filter = ({ handleChangeSort }: { handleChangeSort: any }) => {
+const Filter = ({
+  handleChangeSort,
+  handleChangeFilter,
+}: {
+  handleChangeSort: any;
+  handleChangeFilter?: any;
+}) => {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
   const [categories, setCategories] = React.useState([]);
 
@@ -26,6 +32,10 @@ const Filter = ({ handleChangeSort }: { handleChangeSort: any }) => {
       });
     }
   }, [acceptedFiles]);
+
+  React.useEffect(() => {
+    handleChangeFilter && handleChangeFilter(selected);
+  }, [selected]);
 
   return (
     <div className="flex justify-between items-center mb-2">
