@@ -428,7 +428,6 @@ function Export() {
                 dataImage.length > 0 &&
                 dataImage
                   .slice((page - 1) * 18, page * 18)
-                  .sort((a: any, b: any) => +a[2] - +b[2])
                   .map((item, index) => (
                     <Grid key={index} xs={4} md={2} xl={2}>
                       <div className="flex flex-col">

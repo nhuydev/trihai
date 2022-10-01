@@ -73,6 +73,7 @@ function Import() {
 
   React.useEffect(() => {
     if (acceptedFiles && acceptedFiles.length > 0) {
+      toast.success("Tải lên thông tin thành công!");
       readXlsxFile(acceptedFiles[0]).then((rows: any) => {
         const removeDontexist = rows.filter(
           (row: any, index: number) => row[3] && row[2] && row[6]
@@ -319,7 +320,6 @@ function Import() {
                 dataImage.length > 0 &&
                 dataImage
                   .slice((page - 1) * 18, page * 18)
-                  .sort((a: any, b: any) => +a[2] - +b[2])
                   .map((item: any, index: number) => (
                     <Grid key={index} xs={4} md={2} xl={2}>
                       <div className="flex flex-col justify-between">

@@ -15,6 +15,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { copyImageToClipboard } from "copy-image-clipboard";
 import { saveAs } from "file-saver";
+import JSZip from "jszip";
 
 const ModalExport = ({
   visible,
@@ -24,6 +25,7 @@ const ModalExport = ({
   visibleLoading,
 }: any) => {
   const [imageDownload, setImageDownload] = React.useState([]);
+  const zip = new JSZip();
 
   const handleCheckBox = (Checked, view) => {
     if (Checked) {
@@ -38,9 +40,31 @@ const ModalExport = ({
 
   const handleDownLoad = () => {
     if (imageDownload.length < 1) {
-      canvasData.map((e) => saveAs(e));
+      console.log(
+        "🚀 ~ file: index.tsx ~ line 43 ~ handleDownLoad ~ imageDownload",
+        canvasData
+      );
+      const img = zip.folder("DataImage");
+
+      [...canvasData].map((e, i) => img.file(`smile${i}.png`, e, { binary: true }));
+      img.generateAsync({ type: "blob" }).then(function (content) {
+        console.log(content);
+        saveAs(content, "DataImage");
+      });
+
+      // canvasData.map((e) => saveAs(e));
     } else {
-      imageDownload.map((e) => saveAs(e));
+      const img = zip.folder("DataImage");
+
+      [...imageDownload].map((e, i) =>
+        img.file(`smile${i}.png`, e, { binary: true })
+      );
+      img.generateAsync({ type: "blob" }).then(function (content) {
+        console.log(content);
+        saveAs(content, "DataImage");
+      });
+
+      // imageDownload.map((e) => saveAs(e));
     }
   };
 

@@ -51,7 +51,7 @@ const Filter = ({
         orientation="horizontal"
         color="secondary"
         size="md"
-        defaultValue="gia"
+        // defaultValue="gia"
       >
         <Radio value="gia">Giá</Radio>
         <Radio value="ten">Tên</Radio>
