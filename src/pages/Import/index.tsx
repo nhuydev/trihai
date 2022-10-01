@@ -56,7 +56,7 @@ function Import() {
 
   const [visibleModalExport, setVisibleModalExport] = React.useState(false);
   const [dataImage, setDataImage] = useState<any>([]);
-  console.log("🚀 ~ file: index.tsx ~ line 59 ~ Import ~ dataImage", dataImage);
+  // console.log("🚀 ~ file: index.tsx ~ line 59 ~ Import ~ dataImage", dataImage);
   //   mockData.sort((a: any, b: any) => +a.price - +b.price)
   const [page, setPage] = React.useState(1);
 
@@ -69,6 +69,7 @@ function Import() {
 
   const [elRefs, setElRefs] = React.useState([]);
   const [totalImages, setTotalImages] = React.useState([]);
+  const [arrLengthPage, setArrLengthPage] = React.useState<number>();
 
   React.useEffect(() => {
     if (acceptedFiles && acceptedFiles.length > 0) {
@@ -90,12 +91,6 @@ function Import() {
     if (selectedCate) {
       setDataImage((prev: any) =>
         totalImages.filter((row: any) => {
-          console.log(
-            "row[4]",
-            row[4],
-            "selectedCate",
-            (selectedCate as any).replaceAll("_", " ")
-          );
           return row[4] && row[4] == (selectedCate as any).replaceAll("_", " ");
         })
       );
@@ -122,15 +117,25 @@ function Import() {
     });
   };
 
+  let countImgEx = Math.ceil(dataImage.length / 18);
+
   React.useEffect(() => {
+    if (dataImage.length > 0 && dataImage.length - countImgEx * 18 < 6) {
+      countImgEx -= 1;
+      setArrLengthPage(countImgEx);
+    }
     // add or remove refs
-    setElRefs((elRefs) =>
-      //@ts-ignore
-      Array(Math.ceil(dataImage.length / 18))
-        ?.fill(undefined)
-        ?.map((_, i) => elRefs[i] || React.createRef())
-    );
-  }, [Math.ceil(dataImage.length / 18)]);
+    if (countImgEx > 0) {
+      setElRefs(
+        (elRefs) => {
+          return Array(countImgEx)
+            ?.fill(undefined)
+            ?.map((_, i) => elRefs[i] || React.createRef());
+        }
+        //@ts-ignore
+      );
+    }
+  }, [countImgEx]);
 
   const handleChangeSort = (value: any) => {
     const sortImage =
@@ -147,10 +152,6 @@ function Import() {
   };
 
   const handleChangeFilter = React.useCallback((selected: any) => {
-    console.log(
-      "🚀 ~ file: index.tsx ~ line 157 ~ handleChangeFilter ~ selected",
-      selected
-    );
     setSelectedCate(selected[0] || selected?.anchorKey);
   }, []);
 
@@ -262,7 +263,13 @@ function Import() {
                     withDivider
                   >
                     <section>
-                      <div {...getRootProps({ className: "dropzone" })}>
+                      <div
+                        {...getRootProps({
+                          className: "dropzone",
+                          onClick: (event) =>
+                            !selectedCate && event.stopPropagation(),
+                        })}
+                      >
                         <input
                           disabled={
                             !selectedCate || selectedCate === "Chọn_danh_mục"
@@ -312,6 +319,7 @@ function Import() {
                 dataImage.length > 0 &&
                 dataImage
                   .slice((page - 1) * 18, page * 18)
+                  .sort((a: any, b: any) => +a[2] - +b[2])
                   .map((item: any, index: number) => (
                     <Grid key={index} xs={4} md={2} xl={2}>
                       <div className="flex flex-col justify-between">
@@ -350,9 +358,10 @@ function Import() {
       </div>
       {dataImage && dataImage.length > 0 && (
         <PageImport
+          selectedCate={selectedCate}
           dataImage={dataImage}
           elRefs={elRefs}
-          arrLength={Math.ceil(dataImage.length / 18)}
+          arrLength={arrLengthPage}
         />
       )}
       {dataImage &&

@@ -8,10 +8,12 @@ const PageExport = ({
   dataImage,
   elRefs,
   arrLength,
+  selectedCate,
 }: {
   dataImage: any;
   elRefs: any;
   arrLength: any;
+  selectedCate?: any;
 }) => {
   return (
     <div style={{ maxHeight: "0px", overflow: "hidden" }}>
@@ -29,6 +31,16 @@ const PageExport = ({
             </div>
             <InfoCompany />
           </div>
+          {selectedCate && (
+            <Grid.Container gap={2}>
+              <Grid xs={10}></Grid>
+              <Grid xs={2}>
+                <Button color="secondary" auto>
+                  {selectedCate.replaceAll("_", " ")}
+                </Button>
+              </Grid>
+            </Grid.Container>
+          )}
           <div className="flex justify-center">
             <Container style={{ margin: 0 }} lg>
               {/* <Filter handleChangeSort={handleChangeSort} /> */}

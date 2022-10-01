@@ -11,10 +11,10 @@ import {
   Card,
   Loading,
 } from "@nextui-org/react";
-import { exportComponentAsPNG } from "react-component-export-image";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { copyImageToClipboard } from "copy-image-clipboard";
+import { saveAs } from "file-saver";
 
 const ModalExport = ({
   visible,
@@ -23,6 +23,27 @@ const ModalExport = ({
   refComponent,
   visibleLoading,
 }: any) => {
+  const [imageDownload, setImageDownload] = React.useState([]);
+
+  const handleCheckBox = (Checked, view) => {
+    if (Checked) {
+      setImageDownload((prev) => [...prev, view]);
+    } else {
+      let arr = imageDownload.filter(function (item) {
+        return item !== view;
+      });
+      setImageDownload(arr);
+    }
+  };
+
+  const handleDownLoad = () => {
+    if (imageDownload.length < 1) {
+      canvasData.map((e) => saveAs(e));
+    } else {
+      imageDownload.map((e) => saveAs(e));
+    }
+  };
+
   return (
     <Modal
       closeButton
@@ -44,6 +65,13 @@ const ModalExport = ({
               {canvasData.map((view: any) => (
                 <Grid xs={6} sm={3}>
                   <Card isHoverable isPressable>
+                    <Checkbox
+                      defaultSelected={false}
+                      onChange={(Checked) => handleCheckBox(Checked, view)}
+                      size="xl"
+                      css={{ margin: "10px 0 0 10px" }}
+                      color="primary"
+                    />
                     <Card.Body>
                       <PhotoProvider>
                         <PhotoView src={view}>
@@ -54,7 +82,10 @@ const ModalExport = ({
                           />
                         </PhotoView>
                       </PhotoProvider>
+                    </Card.Body>
+                    <Card.Footer>
                       <Button
+                        style={{ width: "100%" }}
                         onClick={async () => {
                           await copyImageToClipboard(view);
                         }}
@@ -62,7 +93,7 @@ const ModalExport = ({
                       >
                         Coppy
                       </Button>
-                    </Card.Body>
+                    </Card.Footer>
                   </Card>
                 </Grid>
               ))}
@@ -72,7 +103,7 @@ const ModalExport = ({
             <Button auto flat color="error" onClick={closeHandler}>
               Đóng
             </Button>
-            <Button auto onClick={() => exportComponentAsPNG(refComponent)}>
+            <Button auto onClick={handleDownLoad}>
               Tải xuống
             </Button>
           </Modal.Footer>

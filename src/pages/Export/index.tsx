@@ -264,6 +264,7 @@ function Export() {
 
   const arrLength: any = Math.ceil(dataImage.length / 18);
   const [elRefs, setElRefs] = React.useState([]);
+  const [selectedCate, setSelectedCate] = useState<any>();
 
   const handleScreenCapture = async () => {
     elRefs.forEach(async (elRef: any) => {
@@ -304,7 +305,9 @@ function Export() {
     setVisibleModalExport(false);
     setCanvasData([]);
   };
-
+  const handleChangeFilter = React.useCallback((selected: any) => {
+    setSelectedCate(selected[0] || selected?.anchorKey);
+  }, []);
   return (
     <div className="flex flex-col items-center">
       <div ref={refComponent} className="w-fit">
@@ -415,13 +418,17 @@ function Export() {
         </div>
         <div className="flex justify-center">
           <Container style={{ margin: 0 }} lg>
-            <Filter handleChangeSort={handleChangeSort} />
+            <Filter
+              handleChangeFilter={handleChangeFilter}
+              handleChangeSort={handleChangeSort}
+            />
 
             <Grid.Container gap={1}>
               {dataImage &&
                 dataImage.length > 0 &&
                 dataImage
                   .slice((page - 1) * 18, page * 18)
+                  .sort((a: any, b: any) => +a[2] - +b[2])
                   .map((item, index) => (
                     <Grid key={index} xs={4} md={2} xl={2}>
                       <div className="flex flex-col">
@@ -443,7 +450,12 @@ function Export() {
           </Container>
         </div>
       </div>
-      <PageExport dataImage={dataImage} elRefs={elRefs} arrLength={arrLength} />
+      <PageExport
+        selectedCate={selectedCate && selectedCate}
+        dataImage={dataImage}
+        elRefs={elRefs}
+        arrLength={arrLength}
+      />
       <div id="pagination_css" className="flex justify-center mb-10 mt-4">
         <Pagination
           rounded

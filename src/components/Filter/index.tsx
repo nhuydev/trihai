@@ -1,6 +1,6 @@
 import React from "react";
 import { Dropdown, Radio } from "@nextui-org/react";
-
+import { toast } from "react-toastify";
 import { useDropzone } from "react-dropzone";
 import readXlsxFile from "read-excel-file";
 
@@ -27,8 +27,14 @@ const Filter = ({
   React.useEffect(() => {
     if (acceptedFiles && acceptedFiles.length > 0) {
       readXlsxFile(acceptedFiles[0]).then((rows: any) => {
-        setCategories(rows.flat());
-        setSelected([selectedKey(rows.flat()[0])]);
+        console.log(" rows", rows.flat()[0]);
+        if (rows.flat().every((i) => typeof i === "string")) {
+          setCategories(rows.flat());
+          setSelected([selectedKey(rows.flat()[0])]);
+          toast.success("Tải lên danh sách danh mục thành công!");
+        } else {
+          return toast.error("Sai định dạng danh mục!");
+        }
       });
     }
   }, [acceptedFiles]);
