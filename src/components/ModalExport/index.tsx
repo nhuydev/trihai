@@ -14,7 +14,6 @@ import {
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { copyImageToClipboard } from "copy-image-clipboard";
-import { saveAs } from "file-saver";
 import JSZip from "jszip";
 
 const ModalExport = ({
@@ -24,14 +23,13 @@ const ModalExport = ({
   refComponent,
   visibleLoading,
 }: any) => {
-  const [imageDownload, setImageDownload] = React.useState([]);
-  const zip = new JSZip();
+  const [imageDownload, setImageDownload] = React.useState<any>([]);
 
-  const handleCheckBox = (Checked, view) => {
+  const handleCheckBox = (Checked:any, view:any) => {
     if (Checked) {
-      setImageDownload((prev) => [...prev, view]);
+      setImageDownload((prev:any) => [...prev, view]);
     } else {
-      let arr = imageDownload.filter(function (item) {
+      let arr = imageDownload.filter(function (item:any) {
         return item !== view;
       });
       setImageDownload(arr);
@@ -39,7 +37,7 @@ const ModalExport = ({
   };
 
   const handleDownLoad = () => {
-    function download(data) {
+    function download(data:any) {
       const a = document.createElement("a");
       a.href = "data:application/zip;base64," + data;
       a.setAttribute("download", "imgs.zip");
