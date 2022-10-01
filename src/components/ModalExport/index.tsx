@@ -39,30 +39,43 @@ const ModalExport = ({
   };
 
   const handleDownLoad = () => {
+    function download(data) {
+      const a = document.createElement("a");
+      a.href = "data:application/zip;base64," + data;
+      a.setAttribute("download", "imgs.zip");
+      a.style.display = "none";
+      a.addEventListener("click", (e) => e.stopPropagation()); // not relevant for modern browsers
+      document.body.appendChild(a);
+      setTimeout(() => {
+        // setTimeout - not relevant for modern browsers
+        a.click();
+        document.body.removeChild(a);
+      }, 0);
+    }
     if (imageDownload.length < 1) {
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 43 ~ handleDownLoad ~ imageDownload",
-        canvasData
-      );
-      const img = zip.folder("DataImage");
-
-      [...canvasData].map((e, i) => img.file(`smile${i}.png`, e, { binary: true }));
-      img.generateAsync({ type: "blob" }).then(function (content) {
-        console.log(content);
-        saveAs(content, "DataImage");
-      });
+      function download_all() {
+        var zip1 = new JSZip();
+        [...canvasData].forEach((img, i) =>
+          zip1.file("img" + i + ".png", img.replace(/data:.*?;base64,/, ""), {
+            base64: true,
+          })
+        );
+        zip1.generateAsync({ type: "base64" }).then(download);
+      }
+      download_all();
 
       // canvasData.map((e) => saveAs(e));
     } else {
-      const img = zip.folder("DataImage");
-
-      [...imageDownload].map((e, i) =>
-        img.file(`smile${i}.png`, e, { binary: true })
-      );
-      img.generateAsync({ type: "blob" }).then(function (content) {
-        console.log(content);
-        saveAs(content, "DataImage");
-      });
+      function download_all() {
+        var zip1 = new JSZip();
+        [...imageDownload].forEach((img, i) =>
+          zip1.file("img" + i + ".png", img.replace(/data:.*?;base64,/, ""), {
+            base64: true,
+          })
+        );
+        zip1.generateAsync({ type: "base64" }).then(download);
+      }
+      download_all();
 
       // imageDownload.map((e) => saveAs(e));
     }
@@ -93,7 +106,7 @@ const ModalExport = ({
                       defaultSelected={false}
                       onChange={(Checked) => handleCheckBox(Checked, view)}
                       size="xl"
-                      css={{ margin: "10px 0 0 10px" }}
+                      css={{ margin: "10px 0 0 10px", position: "absolute" }}
                       color="primary"
                     />
                     <Card.Body>

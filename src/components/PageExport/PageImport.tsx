@@ -15,9 +15,8 @@ const PageImport = ({
   arrLength: any;
   selectedCate?: any;
 }) => {
-  console.log("elRefs", elRefs, "arrLength", arrLength);
-  const RenderImage = (item, index) => 
-    (<Grid key={index} xs={4} md={2} xl={2}>
+  const RenderImage = (item, index) => (
+    <Grid key={index} xs={2} sm={2}>
       <div className="flex flex-col justify-between">
         <div>
           <Image
@@ -40,10 +39,11 @@ const PageImport = ({
           )}
         </div>
       </div>
-    </Grid>)
-  
+    </Grid>
+  );
+
   return (
-    <div style={{ maxHeight: "0px", overflow: "hidden" }}>
+    <div style={{ maxHeight: "0px", overflow: "hidden", minWidth: "1400px" }}>
       {[...new Array(arrLength)].map((_, i) => {
         const checkLength = dataImage.length - (i + 1) * 18;
         return (
@@ -76,17 +76,19 @@ const PageImport = ({
 
                 <Grid.Container gap={1}>
                   {dataImage &&
-                    dataImage.length > 0 &&
-                    checkLength > 6 &&
-                    dataImage
-                      .slice(i * 18, (i + 1) * 18)
-                      .map((item: any, index: any) => RenderImage(item, index))}
-                  {dataImage &&
-                    dataImage.length > 0 &&
-                    checkLength < 6 &&
-                    dataImage
-                      .slice(i * 18, dataImage.length)
-                      .map((item: any, index: any) => RenderImage(item, index))}
+                  dataImage.length > 0 &&
+                  checkLength &&
+                  checkLength > 6
+                    ? dataImage
+                        .slice(i * 18, (i + 1) * 18)
+                        .map((item: any, index: any) =>
+                          RenderImage(item, index)
+                        )
+                    : dataImage
+                        .slice(i * 18, dataImage.length)
+                        .map((item: any, index: any) =>
+                          RenderImage(item, index)
+                        )}
                 </Grid.Container>
               </Container>
             </div>
