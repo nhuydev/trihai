@@ -26,15 +26,30 @@ import ModalExport from "../../components/ModalExport";
 import * as htmlToImage from "html-to-image";
 import InfoCompany from "../../components/InfoCompany";
 import Filter from "../../components/Filter";
-import logo from "../../../public/logo.png";
+import logo from "../../assets/TRIHAII-01.png";
 import PageExport from "../../components/PageExport";
 import { useDropzone } from "react-dropzone";
 import readXlsxFile from "read-excel-file";
 import PageImport from "../../components/PageExport/PageImport";
 import domtoimage from "dom-to-image";
 import { toast } from "react-toastify";
-const mockData = [];
+import { arr } from "./aloalo.js";
+import SimpleImageSlider from "react-simple-image-slider";
+import firstSlide from "../../assets/slideShow/1.png";
+import secondSlide from "../../assets/slideShow/2.png";
+import thirdSlide from "../../assets/slideShow/3.png";
+import forthSlide from "../../assets/slideShow/4.png";
+import fifthSlide from "../../assets/slideShow/5.png";
+import error404 from "../../assets/error404.jpg";
 
+const images = [
+  { url: firstSlide },
+  { url: secondSlide },
+  { url: thirdSlide },
+  { url: forthSlide },
+  { url: fifthSlide },
+];
+console.log(firstSlide);
 const toDataURL = (url: any) =>
   fetch(url)
     .then((response) => response.blob())
@@ -119,12 +134,13 @@ function Import() {
   };
 
   let countImgEx = Math.ceil(dataImage.length / 18);
+  let remainder = dataImage.length % 18;
 
   React.useEffect(() => {
-    if (dataImage.length > 0 && dataImage.length - countImgEx * 18 < 6) {
+    if (dataImage.length > 0 && remainder < 6 && countImgEx > 1) {
       countImgEx -= 1;
-      setArrLengthPage(countImgEx);
     }
+    setArrLengthPage(countImgEx);
     // add or remove refs
     if (countImgEx > 0) {
       setElRefs(
@@ -162,13 +178,17 @@ function Import() {
         <div className="pt-4 flex justify-center items-center">
           <div className="mr-8 relative">
             <Image
-              style={{ borderRadius: "50%" }}
+              style={{
+                borderRadius: "50%",
+                position: "absolute",
+                top: "-6%",
+              }}
               objectFit="cover"
-              width={200}
-              height={200}
+              width={300}
+              height={300}
               src={logo}
             />
-            <div className="absolute bottom-4 right-3">
+            <div className="absolute bottom-14 right-3">
               <Dropdown placement="bottom-left">
                 <Dropdown.Trigger>
                   <Button
@@ -316,42 +336,75 @@ function Import() {
             />
 
             <Grid.Container gap={1}>
-              {dataImage &&
-                dataImage.length > 0 &&
+              {dataImage && dataImage.length > 0 ? (
                 dataImage
                   .slice((page - 1) * 18, page * 18)
-                  .map((item: any, index: number) => (
-                    <Grid key={index} xs={4} md={2} xl={2}>
-                      <div className="flex flex-col justify-between">
-                        <div>
-                          <Image
-                            objectFit="cover"
-                            height="100%"
-                            width="100%"
-                            className="shadow-lg rounded-3xl max-h-[180px] min-w-full"
-                            src={item[6] || "https://via.placeholder.com/150"}
-                          />
-                          <p className="font-bold text-center pt-1">
-                            {item[1]}
-                          </p>
-                        </div>
-                        <div
-                          className={`flex ${
-                            item[5] ? "justify-evenly" : "justify-center"
-                          }`}
-                        >
-                          <span className="font-semibold text-md text-red-500">
-                            {currencyFormat(item[2])} đ
-                          </span>
-                          {item[5] && (
-                            <span className="font-semibold text-md ">
-                              (1 {item[5]})
+                  .map((item: any, index: number) => {
+                    console.log("item", item);
+                    return (
+                      <Grid
+                        key={index}
+                        xs={4}
+                        md={2}
+                        xl={2}
+                        css={{ fontSize: "1rem" }}
+                      >
+                        <div className="flex flex-col justify-between">
+                          <div>
+                            <Image
+                              objectFit="cover"
+                              height="100%"
+                              width="100%"
+                              className="shadow-lg rounded-3xl max-h-[180px] min-w-full"
+                              src={item[6] || "https://via.placeholder.com/150"}
+                            />
+                            <p
+                              className="  text-center pt-1"
+                              style={{ fontSize: "larger", fontWeight: 600 }}
+                            >
+                              {item[1]?.slice(
+                                0,
+                                item[1].split("").indexOf("(") > 0
+                                  ? item[1].split("").indexOf("(")
+                                  : item[1].split("").length
+                              )}
+                            </p>
+                            {item[1]?.split("").indexOf("(") > 0 && (
+                              <p
+                                style={{ fontSize: "larger", fontWeight: 600 }}
+                                className="  text-center"
+                              >
+                                {item[1]?.slice(item[1].split("").indexOf("("))}
+                              </p>
+                            )}
+                          </div>
+                          <div
+                            className={`flex ${
+                              item[5] ? "justify-evenly" : "justify-center"
+                            }`}
+                          >
+                            <span className="font-semibold text-md text-red-500">
+                              {currencyFormat(item[2])} đ
                             </span>
-                          )}
+                            {item[5] && (
+                              <span className="font-semibold text-md ">
+                                (1 {item[5]})
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </Grid>
-                  ))}
+                      </Grid>
+                    );
+                  })
+              ) : (
+                <Image
+                  width={800}
+                  height={600}
+                  src={error404}
+                  alt="Default Image"
+                  objectFit="cover"
+                />
+              )}
             </Grid.Container>
           </Container>
         </div>
@@ -376,7 +429,18 @@ function Import() {
             />
           </div>
         )}
-
+      <div>
+        <SimpleImageSlider
+          width={300}
+          height={300}
+          images={images}
+          showBullets={true}
+          showNavs={true}
+          bgColor={"#ffffffff"}
+          loop={true}
+          autoPlay={true}
+        />
+      </div>
       <ModalExport
         visibleLoading={visible}
         refComponent={refComponent}

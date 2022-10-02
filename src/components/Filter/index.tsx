@@ -27,7 +27,7 @@ const Filter = ({
   React.useEffect(() => {
     if (acceptedFiles && acceptedFiles.length > 0) {
       readXlsxFile(acceptedFiles[0]).then((rows: any) => {
-        console.log(" rows", rows.flat()[0]);
+        // console.log(" rows", rows.flat()[0]);
         if (rows.flat().every((i) => typeof i === "string")) {
           setCategories(rows.flat());
           setSelected([selectedKey(rows.flat()[0])]);

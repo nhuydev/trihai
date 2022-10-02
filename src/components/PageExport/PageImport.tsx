@@ -2,7 +2,7 @@ import { Button, Container, Dropdown, Grid, Image } from "@nextui-org/react";
 import React from "react";
 import { currencyFormat } from "../../utils";
 import Filter from "../Filter";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/TRIHAII-01.png";
 import InfoCompany from "../InfoCompany";
 const PageImport = ({
   dataImage,
@@ -26,7 +26,25 @@ const PageImport = ({
             className="shadow-lg rounded-3xl max-h-[180px] min-w-full"
             src={item[6] || "https://via.placeholder.com/150"}
           />
-          <p className="font-bold text-center pt-1">{item[1]}</p>
+          <p
+            className="  text-center pt-1"
+            style={{ fontSize: "larger", fontWeight: 600 }}
+          >
+            {item[1]?.slice(
+              0,
+              item[1]?.split("").indexOf("(") > 0
+                ? item[1].split("").indexOf("(")
+                : item[1].split("").length
+            )}
+          </p>
+          {item[1].split("").indexOf("(") > 0 && (
+            <p
+              className="  text-center "
+              style={{ fontSize: "larger", fontWeight: 600 }}
+            >
+              {item[1]?.slice(item[1].split("").indexOf("("))}
+            </p>
+          )}
         </div>
         <div
           className={`flex ${item[5] ? "justify-evenly" : "justify-center"}`}
@@ -51,10 +69,14 @@ const PageImport = ({
             <div className="pt-4 flex justify-center items-center">
               <div className="mr-8 relative">
                 <Image
-                  style={{ borderRadius: "50%" }}
+                  style={{
+                    borderRadius: "50%",
+                    position: "absolute",
+                    top: "-7%",
+                  }}
                   objectFit="cover"
-                  width={200}
-                  height={200}
+                  width={300}
+                  height={300}
                   src={logo}
                 />
               </div>

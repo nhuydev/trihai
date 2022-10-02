@@ -7,7 +7,7 @@ export const downloadFile = (fileLink: string) => {
   const url = window.URL.createObjectURL(new Blob([fileLink]));
   const link: any = document.createElement("a");
   link.href = url;
-  console.log("🚀 downloadFile ~ url", url);
+  // console.log("🚀 downloadFile ~ url", url);
   link.setAttribute("download", fileLink);
 
   // Append to html link element page

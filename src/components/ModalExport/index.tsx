@@ -16,6 +16,8 @@ import "react-photo-view/dist/react-photo-view.css";
 import { copyImageToClipboard } from "copy-image-clipboard";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
+import Resizer from "react-image-file-resizer";
+import { Icon } from "@iconify/react";
 
 const ModalExport = ({
   visible,
@@ -109,7 +111,7 @@ const ModalExport = ({
                       css={{ margin: "10px 0 0 10px", position: "absolute" }}
                       color="primary"
                     />
-                    <Card.Body>
+                    <Card.Body css={{ paddingBottom: "10px" }}>
                       <PhotoProvider>
                         <PhotoView src={view}>
                           <Card.Image
@@ -120,13 +122,21 @@ const ModalExport = ({
                         </PhotoView>
                       </PhotoProvider>
                     </Card.Body>
-                    <Card.Footer>
+                    <Card.Footer style={{ paddingTop: "0px" }}>
                       <Button
                         style={{ width: "100%" }}
                         onClick={async () => {
                           await copyImageToClipboard(view);
                         }}
                         auto
+                        iconRight={
+                          <Icon
+                            icon="carbon:image-copy"
+                            style={{
+                              fontSize: "1rem",
+                            }}
+                          />
+                        }
                       >
                         Coppy
                       </Button>

@@ -23,8 +23,10 @@ import ModalExport from "../../components/ModalExport";
 import * as htmlToImage from "html-to-image";
 import InfoCompany from "../../components/InfoCompany";
 import Filter from "../../components/Filter";
-import logo from "../../../public/logo.png";
+import logo from "../../assets/TRIHAII-01.png";
 import PageExport from "../../components/PageExport";
+import error404 from "../../assets/error404.jpg";
+
 const mockData = [
   {
     id: 1,
@@ -314,13 +316,13 @@ function Export() {
         <div className="pt-4 flex justify-center items-center">
           <div className="mr-8 relative">
             <Image
-              style={{ borderRadius: "50%" }}
+              style={{ borderRadius: "50%", position: "absolute", top: "-6%" }}
               objectFit="cover"
-              width={200}
-              height={200}
+              width={300}
+              height={300}
               src={logo}
             />
-            <div className="absolute bottom-4 right-3">
+            <div className="absolute bottom-14 right-3">
               <Dropdown placement="bottom-left">
                 <Dropdown.Trigger>
                   <Button
@@ -424,8 +426,7 @@ function Export() {
             />
 
             <Grid.Container gap={1}>
-              {dataImage &&
-                dataImage.length > 0 &&
+              {dataImage && dataImage.length > 0 ? (
                 dataImage
                   .slice((page - 1) * 18, page * 18)
                   .map((item, index) => (
@@ -444,7 +445,16 @@ function Export() {
                         </span>
                       </div>
                     </Grid>
-                  ))}
+                  ))
+              ) : (
+                <Image
+                  width={800}
+                  height={600}
+                  src={error404}
+                  alt="Default Image"
+                  objectFit="cover"
+                />
+              )}
             </Grid.Container>
           </Container>
         </div>

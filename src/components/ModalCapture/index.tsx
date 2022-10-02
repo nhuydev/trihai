@@ -50,7 +50,7 @@ const ModalCapture = ({ setVisible, bindings, dataImage }: any) => {
                   objectFit="cover"
                   width={240}
                   height={240}
-                  src="/logo.png"
+                  src="/TRIHAII-01.png"
                 />
               </div>
               <InfoCompany />
