@@ -15,7 +15,7 @@ const PageImport = ({
   arrLength: any;
   selectedCate?: any;
 }) => {
-  const RenderImage = (item, index) => (
+  const RenderImage = (item:any, index:any) => (
     <Grid key={index} xs={2} sm={2}>
       <div className="flex flex-col justify-between">
         <div>
