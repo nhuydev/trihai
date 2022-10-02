@@ -11,7 +11,7 @@ import thirdSlide from '../../assets/slideShow/3.png';
 import forthSlide from '../../assets/slideShow/4.png';
 import fifthSlide from '../../assets/slideShow/5.png';
 
-const images = [firstSlide, secondSlide, thirdSlide, forthSlide, fifthSlide];
+const images = [firstSlide, thirdSlide, secondSlide, forthSlide, fifthSlide];
 
 const PageImport = ({
     dataImage,
@@ -33,7 +33,7 @@ const PageImport = ({
                     objectFit="cover"
                     height="100%"
                     width="100%"
-                    style={{ minHeight: '200px' }}
+                    style={{ minHeight: '200px', minWidth: '220px' }}
                     className="shadow-lg rounded-3xl max-h-[180px] min-w-full"
                     src={item[6] || 'https://via.placeholder.com/150'}
                 />
@@ -100,20 +100,19 @@ const PageImport = ({
                             </Container>
                         </div>
                         <div className="flex justify-center pb-5 py-4" style={{ width: '100%' }}>
-                            <Container style={{ margin: 0 }} lg>
-                                <div className="flex">
-                                    {images.map((url: string) => (
+                            <div className="flex justify-center w-full items-center">
+                                {images.map((url: string, index: number) => (
+                                    <div key={url} className="mx-4 flex justify-center items-center">
                                         <Image
-                                            width={200}
-                                            key={url}
-                                            height={200}
+                                            width={index === 1 || index === 4 ? 110 : 100}
+                                            height={index === 1 || index === 4 ? 110 : 100}
                                             src={url}
                                             alt="Default Image"
                                             objectFit="cover"
                                         />
-                                    ))}
-                                </div>
-                            </Container>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 );

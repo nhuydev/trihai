@@ -21,7 +21,7 @@ import InfoCompany from '../../components/InfoCompany';
 import PageImport from '../../components/PageExport/PageImport';
 import Slider from 'react-slick';
 
-const images = [firstSlide, secondSlide, thirdSlide, forthSlide, fifthSlide];
+const images = [firstSlide, thirdSlide, secondSlide, forthSlide, fifthSlide];
 
 function Import() {
     const navigate = useNavigate();
@@ -263,7 +263,7 @@ function Import() {
                                                     objectFit="cover"
                                                     height="100%"
                                                     width="100%"
-                                                    style={{ minHeight: '200px' }}
+                                                    style={{ minHeight: '200px', minWidth: '220px' }}
                                                     className="shadow-lg rounded-3xl max-h-[180px] min-w-full"
                                                     src={item[6] || 'https://via.placeholder.com/150'}
                                                 />
@@ -347,14 +347,20 @@ function Import() {
                             <Image width={200} key={url} height={200} src={url} alt="Default Image" objectFit="cover" />
                         ))}
                     </Slider> */}
-            <div className="flex justify-center mb-10 mt-4" style={{ width: '100%' }}>
-                <Container style={{ margin: 0 }} lg>
-                    <div className="flex">
-                        {images.map((url: string) => (
-                            <Image width={200} key={url} height={200} src={url} alt="Default Image" objectFit="cover" />
-                        ))}
-                    </div>
-                </Container>
+            <div className="mb-10 mt-4 justify-center" style={{ width: '100%' }}>
+                <div className="flex justify-center w-full items-center">
+                    {images.map((url: string, index: number) => (
+                        <div key={url} className="mx-4 flex justify-center items-center">
+                            <Image
+                                width={index === 1 || index === 4 ? 110 : 100}
+                                height={index === 1 || index === 4 ? 110 : 100}
+                                src={url}
+                                alt="Default Image"
+                                objectFit="cover"
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
             <ModalExport
                 visibleLoading={visible}
