@@ -10,6 +10,7 @@ import secondSlide from '../../assets/slideShow/2.png';
 import thirdSlide from '../../assets/slideShow/3.png';
 import forthSlide from '../../assets/slideShow/4.png';
 import fifthSlide from '../../assets/slideShow/5.png';
+import logocard from '../../assets/logo_card1.png';
 
 const images = [firstSlide, thirdSlide, secondSlide, forthSlide, fifthSlide];
 
@@ -25,7 +26,14 @@ const PageImport = ({
     selectedCate?: any;
 }) => {
     const RenderImage = (item: any, index: any) => (
-        <Grid key={index} xs={2} sm={2}>
+        <Grid key={index} xs={2} sm={2} className="relative">
+            <div className="z-10 absolute left-2 top-2">
+                <article className="badge pink">
+                    <div className="rounded2 rounded-full">
+                        <Image className="rounded-full" objectFit="cover" height={40} src={logocard} />
+                    </div>
+                </article>
+            </div>
             <div className="flex flex-col justify-between min-w-[200px]">
                 <Image
                     showSkeleton

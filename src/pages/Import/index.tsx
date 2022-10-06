@@ -1,4 +1,4 @@
-import { Button, Container, Dropdown, Grid, Image, Pagination } from '@nextui-org/react';
+import { Badge, Button, Container, Dropdown, Grid, Image, Pagination } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ModalExport from '../../components/ModalExport';
@@ -19,6 +19,7 @@ import logo from '../../assets/successLogo.png';
 import Filter from '../../components/Filter';
 import InfoCompany from '../../components/InfoCompany';
 import PageImport from '../../components/PageExport/PageImport';
+import logocard from '../../assets/logo_card1.png';
 import Slider from 'react-slick';
 
 const images = [firstSlide, thirdSlide, secondSlide, forthSlide, fifthSlide];
@@ -45,6 +46,9 @@ function Import() {
     const [elRefs, setElRefs] = React.useState([]);
     const [totalImages, setTotalImages] = React.useState([]);
     const [arrLengthPage, setArrLengthPage] = React.useState<number>();
+
+    const [zoom, setZoom] = React.useState('100%');
+    console.log('🚀 ~ file: index.tsx ~ line 50 ~ Import ~ zoom', zoom);
 
     React.useEffect(() => {
         if (acceptedFiles && acceptedFiles.length > 0) {
@@ -130,6 +134,18 @@ function Import() {
         setSelectedCate(selected[0] || selected?.anchorKey);
     }, []);
 
+    React.useEffect(() => {
+        const root: any = document.querySelector('#root');
+
+        // Change zoom level on mount
+        root.style.zoom = zoom;
+
+        return () => {
+            // Restore default value
+            root.style.zoom = '100%';
+        };
+    }, [zoom]);
+
     return (
         <div className="flex flex-col items-center">
             <div ref={refComponent} className="w-fit">
@@ -162,6 +178,9 @@ function Import() {
                                                 return toast('Tải dữ liệu danh mục lên trước');
                                             // handleScreenCapture();
                                         }
+                                        if (key === 'snip') {
+                                            setZoom('60%');
+                                        }
 
                                         if (key === 'gender') {
                                             handleScreenCapture();
@@ -174,6 +193,24 @@ function Import() {
                                     color="primary"
                                     aria-label="Avatar Actions"
                                 >
+                                    <Dropdown.Item
+                                        key="snip"
+                                        textValue="snip"
+                                        icon={
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                style={{ fill: '#000' }}
+                                            >
+                                                <path d="M6 9h8v2H6z"></path>
+                                                <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
+                                            </svg>
+                                        }
+                                    >
+                                        <div className="font-semibold">Chế độ chụp ảnh</div>
+                                    </Dropdown.Item>
                                     <Dropdown.Item
                                         key="gender"
                                         textValue="gender"
@@ -255,7 +292,26 @@ function Import() {
                             {dataImage && dataImage.length > 0 ? (
                                 dataImage.slice((page - 1) * 18, page * 18).map((item: any, index: number) => {
                                     return (
-                                        <Grid key={index} xs={4} md={2} xl={2} css={{ fontSize: '1rem' }}>
+                                        <Grid
+                                            className="relative"
+                                            key={index}
+                                            xs={4}
+                                            md={2}
+                                            xl={2}
+                                            css={{ fontSize: '1rem' }}
+                                        >
+                                            <div className="z-10 absolute left-2 top-2">
+                                                <article className="badge pink">
+                                                    <div className="rounded2 rounded-full">
+                                                        <Image
+                                                            className="rounded-full"
+                                                            objectFit="cover"
+                                                            height={40}
+                                                            src={logocard}
+                                                        />
+                                                    </div>
+                                                </article>
+                                            </div>
                                             <div className="flex flex-col justify-between  min-w-[200px]">
                                                 <Image
                                                     showSkeleton
@@ -320,16 +376,7 @@ function Import() {
                     arrLength={arrLengthPage}
                 />
             )}
-            {dataImage && dataImage.length > 0 && dataImage.length > Math.ceil(dataImage.length / 18) && (
-                <div id="pagination_css" className="flex justify-center mb-10 mt-4">
-                    <Pagination
-                        rounded
-                        total={Math.ceil(dataImage.length / 18)}
-                        initialPage={1}
-                        onChange={(page) => setPage(page)}
-                    />
-                </div>
-            )}
+
             {/* <div>
                 <SimpleImageSlider
                     width={300}
@@ -362,6 +409,25 @@ function Import() {
                     ))}
                 </div>
             </div>
+            {dataImage && dataImage.length > 0 && dataImage.length > Math.ceil(dataImage.length / 18) && (
+                <div id="pagination_css" className="flex justify-center mb-10 mt-4">
+                    <Pagination
+                        rounded
+                        total={Math.ceil(dataImage.length / 18)}
+                        initialPage={1}
+                        onChange={(page) => setPage(page)}
+                    />
+                </div>
+            )}
+            {zoom === '60%' && (
+                <div
+                    onClick={() => setZoom('100%')}
+                    className="fixed top-[50%] left-0 bg-violet-500 text-white p-2 rounded-xl cursor-pointer px-4"
+                    style={{ zoom: '200%' }}
+                >
+                    Thoát chế độ chụp ảnh
+                </div>
+            )}
             <ModalExport
                 visibleLoading={visible}
                 refComponent={refComponent}
