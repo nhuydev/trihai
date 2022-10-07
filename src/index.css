@@ -40,6 +40,8 @@ body::-webkit-scrollbar-thumb
 	align-items: center;
 	transition: all 0.2s ease;
 	box-shadow: 2px 5px 4px 2px rgba(0, 0, 0, 0.001);
+	background-color: transparent;
+
   }
   
   .rounded2 {
@@ -50,6 +52,17 @@ body::-webkit-scrollbar-thumb
 	justify-content: center;
 	align-items: center;
 	
+  }
+
+  .bg_sticker {
+	background-image: url('./assets/sticker.png') !important;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 50px;
+	width: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
   }
 
 @tailwind base;

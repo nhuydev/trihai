@@ -351,6 +351,13 @@ function Import() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            {item[7] && (
+                                                <div className="z-10 absolute right-2 top-2 bg-[rgba(0,0,0,0.6)] rounded-full">
+                                                    <div className="rounded-full bg_sticker font-bold -rotate-[30deg] text-white text-sm">
+                                                        {item[7].toString()}
+                                                    </div>
+                                                </div>
+                                            )}
                                         </Grid>
                                     );
                                 })
