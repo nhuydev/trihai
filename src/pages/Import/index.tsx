@@ -300,18 +300,14 @@ function Import() {
                                             xl={2}
                                             css={{ fontSize: '1rem' }}
                                         >
-                                            <div className="z-10 absolute left-2 top-2">
-                                                <article className="badge pink">
-                                                    <div className="rounded2 rounded-full">
-                                                        <Image
-                                                            className="rounded-full"
-                                                            objectFit="cover"
-                                                            height={40}
-                                                            src={logocard}
-                                                        />
+                                            {item[7] && (
+                                                <div className="z-10 absolute -left-1 -top-2 bg-red-200 rounded-full">
+                                                    <div className="rounded-full bg_sticker font-bold -rotate-[30deg] text-white text-sm">
+                                                        {item[7].toString()}
                                                     </div>
-                                                </article>
-                                            </div>
+                                                </div>
+                                            )}
+
                                             <div className="flex flex-col justify-between  min-w-[200px]">
                                                 <Image
                                                     showSkeleton
@@ -351,13 +347,18 @@ function Import() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            {item[7] && (
-                                                <div className="z-10 absolute right-2 top-2 bg-[rgba(0,0,0,0.6)] rounded-full">
-                                                    <div className="rounded-full bg_sticker font-bold -rotate-[30deg] text-white text-sm">
-                                                        {item[7].toString()}
+                                            <div className="z-10 absolute right-2 top-2">
+                                                <article className="badge pink">
+                                                    <div className="rounded2 rounded-full">
+                                                        <Image
+                                                            className="rounded-full"
+                                                            objectFit="cover"
+                                                            height={40}
+                                                            src={logocard}
+                                                        />
                                                     </div>
-                                                </div>
-                                            )}
+                                                </article>
+                                            </div>
                                         </Grid>
                                     );
                                 })
