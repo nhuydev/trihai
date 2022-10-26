@@ -298,7 +298,7 @@ function Import() {
                                             xs={4}
                                             md={2}
                                             xl={2}
-                                            css={{ fontSize: '1rem' }}
+                                            css={{ fontSize: '1rem', minWidth: '220px' }}
                                         >
                                             {item[7] && (
                                                 <div className="z-10 absolute -left-1 -top-2 bg-red-200 rounded-full">
@@ -337,7 +337,7 @@ function Import() {
                                                 <div
                                                     className={`flex ${item[5] ? 'justify-evenly' : 'justify-center'}`}
                                                 >
-                                                    <span className="font-semibold text-md text-red-500">
+                                                    <span className="font-semibold text-xl text-red-500">
                                                         {currencyFormat(item[2])} đ
                                                     </span>
                                                     <div className="text-center flex items-center">

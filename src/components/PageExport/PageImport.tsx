@@ -26,7 +26,7 @@ const PageImport = ({
     selectedCate?: any;
 }) => {
     const RenderImage = (item: any, index: any) => (
-        <Grid key={index} xs={2} sm={2} className="relative">
+        <Grid key={index} xs={2} sm={2} className="relative" style={{ minWidth: '220px' }}>
             {item[7] && (
                 <div className="z-10 absolute -left-1 -top-2 bg-red-200 rounded-full">
                     <div className="rounded-full bg_sticker font-bold -rotate-[30deg] text-white text-sm">
@@ -60,7 +60,7 @@ const PageImport = ({
                 )}
 
                 <div className={`flex ${item[5] ? 'justify-evenly' : 'justify-center'}`}>
-                    <span className="font-semibold text-md text-red-500">{currencyFormat(item[2])} đ</span>
+                    <span className="font-semibold text-xl text-red-500">{currencyFormat(item[2])} đ</span>
                     <div className="text-center flex items-center">
                         {item[5] && <div className="font-semibold text-xs">(1 {item[5]})</div>}
                     </div>

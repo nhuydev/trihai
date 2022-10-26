@@ -11,6 +11,10 @@ const InfoCompany = () => {
             <p className="text-red-600 font-medium italic text-[16px]">
                 Chủ tài khoản: Nguyễn Chí Hải - Nội dung chuyển khoản: Tên KH + SĐT Đặt hàng
             </p>
+            <p className="max-w-fit text-red-400 text-sm mt-1">
+                * Hình ảnh chỉ mang tính chất minh họa do hàng về hàng ngày kích cỡ, giá thành, chất lượng khác nhau.
+                Đối với hoa nhuộm, hình ảnh chỉ giống khoảng 7-80% so với thực tế. *
+            </p>
             <h2 className="uppercase mt-3 font-serif font-bold text-3xl">
                 Báo giá ngày {new Date().toLocaleDateString()}
             </h2>

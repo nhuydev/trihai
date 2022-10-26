@@ -42,7 +42,7 @@ const PageExport = ({
                     )}
                 </div>
                 <div className={`flex ${item[5] ? 'justify-evenly' : 'justify-center'}`}>
-                    <span className="font-semibold text-md text-red-500">{currencyFormat(item[2])} đ</span>
+                    <span className="font-semibold text-xl text-red-500">{currencyFormat(item[2])} đ</span>
                     {item[5] && <span className="font-semibold text-md ">(1 {item[5]})</span>}
                 </div>
             </div>
