@@ -11,7 +11,7 @@ const InfoCompany = () => {
             <p className="text-red-600 font-medium italic text-[16px]">
                 Chủ tài khoản: Nguyễn Chí Hải - Nội dung chuyển khoản: Tên KH + SĐT Đặt hàng
             </p>
-            <p className="max-w-fit text-red-400 text-sm mt-1">
+            <p className="max-w-fit font-bold text-sm mt-1 italic">
                 * Hình ảnh chỉ mang tính chất minh họa do hàng về hàng ngày kích cỡ, giá thành, chất lượng khác nhau.
                 Đối với hoa nhuộm, hình ảnh chỉ giống khoảng 7-80% so với thực tế. *
             </p>
