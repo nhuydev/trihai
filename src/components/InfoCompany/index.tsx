@@ -13,7 +13,7 @@ const InfoCompany = () => {
             </p>
             <p className="max-w-fit font-bold text-sm mt-1 italic">
                 * Hình ảnh chỉ mang tính chất minh họa do hàng về hàng ngày kích cỡ, giá thành, chất lượng khác nhau.
-                Đối với hoa nhuộm, hình ảnh chỉ giống khoảng 70-80% so với thực tế. *
+                Đối với các dòng hoa nhuộm, hình ảnh chỉ giống khoảng 70-80% so với thực tế. *
             </p>
             <h2 className="uppercase mt-3 font-serif font-bold text-3xl">
                 Báo giá ngày {new Date().toLocaleDateString()}
