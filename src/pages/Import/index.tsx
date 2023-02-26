@@ -95,8 +95,8 @@ function Import() {
         });
     };
 
-    let countImgEx = Math.ceil(dataImage.length / 18);
-    let remainder = dataImage.length % 18;
+    let countImgEx = Math.ceil(dataImage.length / 30);
+    let remainder = dataImage.length % 30;
 
     React.useEffect(() => {
         if (dataImage.length > 0 && remainder < 6 && countImgEx > 1) {
@@ -152,7 +152,7 @@ function Import() {
                 <div className="pt-4 flex justify-center items-center">
                     <div className="mr-8 relative">
                         <div>
-                            <Image objectFit="cover" height={200} src={logo} />
+                            <Image objectFit="cover" height={180} src={logo} />
                         </div>
                         <div className="absolute bottom-14 right-3">
                             <Dropdown placement="bottom-left">
@@ -290,7 +290,7 @@ function Import() {
 
                         <Grid.Container gap={1}>
                             {dataImage && dataImage.length > 0 ? (
-                                dataImage.slice((page - 1) * 18, page * 18).map((item: any, index: number) => {
+                                dataImage.slice((page - 1) * 30, page * 30).map((item: any, index: number) => {
                                     return (
                                         <Grid
                                             className="relative"
@@ -315,11 +315,11 @@ function Import() {
                                                     objectFit="cover"
                                                     height="100%"
                                                     width="100%"
-                                                    style={{ minHeight: '200px', minWidth: '220px' }}
-                                                    className="shadow-lg rounded-3xl max-h-[180px] min-w-full"
+                                                    style={{ minHeight: '220px', minWidth: '220px' }}
+                                                    className="shadow-lg rounded-3xl max-h-[220px] min-w-full"
                                                     src={item[6] || 'https://via.placeholder.com/150'}
                                                 />
-                                                <p className="text-center pt-1 px-2 text-md font-semibold">
+                                                <p className="text-center pt-1 px-2 text-[18px] font-semibold">
                                                     {item[1]?.slice(
                                                         0,
                                                         item[1].split('').indexOf('(') > 0
@@ -327,24 +327,26 @@ function Import() {
                                                             : item[1].split('').length
                                                     )}
                                                 </p>
-                                                <div>
-                                                    {item[1]?.split('').indexOf('(') > 0 && (
+                                                {/* <div> */}
+                                                {/* {item[1]?.split('').indexOf('(') > 0 && (
                                                         <p className="text-center mb-1 text-md font-semibold">
                                                             {item[1]?.slice(item[1].split('').indexOf('('))}
                                                         </p>
+                                                    )} */}
+                                                <div className="text-center flex items-center w-full justify-center">
+                                                    {item[5] && (
+                                                        <div className="font-semibold text-[15px] text-center">
+                                                            (1 {item[5]})
+                                                        </div>
                                                     )}
                                                 </div>
+                                                {/* </div> */}
                                                 <div
                                                     className={`flex ${item[5] ? 'justify-evenly' : 'justify-center'}`}
                                                 >
-                                                    <span className="font-semibold text-xl text-red-500">
+                                                    <span className="font-semibold text-[24px] text-red-500">
                                                         {currencyFormat(item[2])} đ
                                                     </span>
-                                                    <div className="text-center flex items-center">
-                                                        {item[5] && (
-                                                            <div className="font-semibold text-xs">(1 {item[5]})</div>
-                                                        )}
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="z-10 absolute right-2 top-2">
@@ -402,7 +404,7 @@ function Import() {
                             <Image width={200} key={url} height={200} src={url} alt="Default Image" objectFit="cover" />
                         ))}
                     </Slider> */}
-            <div className="mb-10 mt-4 justify-center" style={{ width: '100%' }}>
+            {/* <div className="mb-10 mt-4 justify-center" style={{ width: '100%' }}>
                 <div className="flex justify-center w-full items-center">
                     {images.map((url: string, index: number) => (
                         <div key={url} className="mx-4 flex justify-center items-center">
@@ -416,12 +418,12 @@ function Import() {
                         </div>
                     ))}
                 </div>
-            </div>
-            {dataImage && dataImage.length > 0 && dataImage.length > Math.ceil(dataImage.length / 18) && (
+            </div> */}
+            {dataImage && dataImage.length > 0 && dataImage.length > Math.ceil(dataImage.length / 30) && (
                 <div id="pagination_css" className="flex justify-center mb-10 mt-4">
                     <Pagination
                         rounded
-                        total={Math.ceil(dataImage.length / 18)}
+                        total={Math.ceil(dataImage.length / 30)}
                         initialPage={1}
                         onChange={(page) => setPage(page)}
                     />

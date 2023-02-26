@@ -222,7 +222,7 @@ function Export() {
 
     const refComponent = React.useRef<any>();
 
-    const arrLength: any = Math.ceil(dataImage.length / 18);
+    const arrLength: any = Math.ceil(dataImage.length / 25);
     const [elRefs, setElRefs] = React.useState([]);
     const [selectedCate, setSelectedCate] = useState<any>();
 
@@ -370,7 +370,7 @@ function Export() {
 
                         <Grid.Container gap={1}>
                             {dataImage && dataImage.length > 0 ? (
-                                dataImage.slice((page - 1) * 18, page * 18).map((item, index) => (
+                                dataImage.slice((page - 1) * 25, page * 25).map((item, index) => (
                                     <Grid key={index} xs={4} md={2} xl={2}>
                                         <div className="flex flex-col">
                                             <Image
@@ -403,7 +403,7 @@ function Export() {
             <div id="pagination_css" className="flex justify-center mb-10 mt-4">
                 <Pagination
                     rounded
-                    total={Math.ceil(dataImage.length / 18)}
+                    total={Math.ceil(dataImage.length / 25)}
                     initialPage={1}
                     onChange={(page) => setPage(page)}
                 />
