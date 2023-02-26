@@ -320,7 +320,7 @@ function Import() {
                                                     src={item[6] || 'https://via.placeholder.com/150'}
                                                 />
                                                 <p
-                                                    className="text-center py-1 px-2 text-[20px] font-semibold"
+                                                    className="text-center py-1 px-2 text-[22px] font-semibold"
                                                     style={{ lineHeight: '26px' }}
                                                 >
                                                     {item[1]?.slice(
@@ -338,7 +338,7 @@ function Import() {
                                                     )} */}
                                                 <div className="text-center flex items-center w-full justify-center">
                                                     {item[5] && (
-                                                        <div className="font-semibold text-[15px] text-center">
+                                                        <div className="font-semibold text-[16px] text-center">
                                                             (1 {item[5]})
                                                         </div>
                                                     )}
@@ -347,7 +347,7 @@ function Import() {
                                                 <div
                                                     className={`flex ${item[5] ? 'justify-evenly' : 'justify-center'}`}
                                                 >
-                                                    <span className="font-semibold text-[26px] text-red-500">
+                                                    <span className="font-semibold text-[26px] text-[red]">
                                                         {currencyFormat(item[2])} đ
                                                     </span>
                                                 </div>
