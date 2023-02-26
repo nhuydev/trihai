@@ -52,7 +52,7 @@ const PageExport = ({
     return (
         <div style={{ maxHeight: '0px', overflow: 'hidden', minWidth: '1400px' }}>
             {[...new Array(arrLength)].map((_, i) => {
-                const checkLength = dataImage.length - (i + 1) * 30;
+                const checkLength = dataImage.length - (i + 1) * 36;
                 return (
                     <div key={i} ref={elRefs[i]} className="w-fit ">
                         <div className="pt-4 flex justify-center items-center">
@@ -88,10 +88,10 @@ const PageExport = ({
                                 <Grid.Container gap={1}>
                                     {dataImage && dataImage.length > 0 && checkLength && checkLength > 6
                                         ? dataImage
-                                              .slice(i * 30, (i + 1) * 30)
+                                              .slice(i * 36, (i + 1) * 36)
                                               .map((item: any, index: any) => RenderImage(item, index))
                                         : dataImage
-                                              .slice(i * 30, dataImage.length)
+                                              .slice(i * 36, dataImage.length)
                                               .map((item: any, index: any) => RenderImage(item, index))}
                                 </Grid.Container>
                             </Container>

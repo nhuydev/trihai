@@ -95,8 +95,8 @@ function Import() {
         });
     };
 
-    let countImgEx = Math.ceil(dataImage.length / 30);
-    let remainder = dataImage.length % 30;
+    let countImgEx = Math.ceil(dataImage.length / 36);
+    let remainder = dataImage.length % 36;
 
     React.useEffect(() => {
         if (dataImage.length > 0 && remainder < 6 && countImgEx > 1) {
@@ -290,7 +290,7 @@ function Import() {
 
                         <Grid.Container gap={1}>
                             {dataImage && dataImage.length > 0 ? (
-                                dataImage.slice((page - 1) * 30, page * 30).map((item: any, index: number) => {
+                                dataImage.slice((page - 1) * 36, page * 36).map((item: any, index: number) => {
                                     return (
                                         <Grid
                                             className="relative"
@@ -319,7 +319,10 @@ function Import() {
                                                     className="shadow-lg rounded-3xl max-h-[220px] min-w-full"
                                                     src={item[6] || 'https://via.placeholder.com/150'}
                                                 />
-                                                <p className="text-center pt-1 px-2 text-[18px] font-semibold">
+                                                <p
+                                                    className="text-center py-1 px-2 text-[20px] font-semibold"
+                                                    style={{ lineHeight: '26px' }}
+                                                >
                                                     {item[1]?.slice(
                                                         0,
                                                         item[1].split('').indexOf('(') > 0
@@ -344,7 +347,7 @@ function Import() {
                                                 <div
                                                     className={`flex ${item[5] ? 'justify-evenly' : 'justify-center'}`}
                                                 >
-                                                    <span className="font-semibold text-[24px] text-red-500">
+                                                    <span className="font-semibold text-[26px] text-red-500">
                                                         {currencyFormat(item[2])} đ
                                                     </span>
                                                 </div>
@@ -419,11 +422,11 @@ function Import() {
                     ))}
                 </div>
             </div> */}
-            {dataImage && dataImage.length > 0 && dataImage.length > Math.ceil(dataImage.length / 30) && (
+            {dataImage && dataImage.length > 0 && dataImage.length > Math.ceil(dataImage.length / 36) && (
                 <div id="pagination_css" className="flex justify-center mb-10 mt-4">
                     <Pagination
                         rounded
-                        total={Math.ceil(dataImage.length / 30)}
+                        total={Math.ceil(dataImage.length / 36)}
                         initialPage={1}
                         onChange={(page) => setPage(page)}
                     />
