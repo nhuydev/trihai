@@ -7,9 +7,7 @@ const InfoCompany = () => {
         <div className="flex justify-between max-w-screen-lg items-center">
             <div className="px-4 pt-4">
                 <h3 className="text-[32px] uppercase">Công Ty TNHH Trí Hải Complex</h3>
-                <p className="font-medium text-[20px]">
-                    Địa chỉ: SN 2, Ngõ 36 Hoàng Quốc Việt, Nghĩa Đô, Cầu Giấy, Hà Nội
-                </p>
+                <p className="font-medium text-[20px]">Địa chỉ: 97 P. Nguyễn Khuyến, Văn Miếu, Đống Đa, Hà Nội</p>
                 <p className="font-medium text-[20px]">Điện thoại: 0888.533.886</p>
                 {/* <p className="text-red-600 font-medium italic text-[16px]">TPbank - 02972708601 - MBank: 00130319953333</p>
             <p className="text-red-600 font-medium italic text-[16px]">
