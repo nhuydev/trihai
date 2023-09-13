@@ -154,7 +154,7 @@ function Import() {
                         <div>
                             <Image objectFit="cover" height={180} src={logo} />
                         </div>
-                        <div className="absolute bottom-14 right-3">
+                        <div className="absolute bottom-1 right-1">
                             <Dropdown placement="bottom-left">
                                 <Dropdown.Trigger>
                                     <Button animated={false} color="gradient" bordered auto rounded>
